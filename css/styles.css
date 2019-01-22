@@ -1,3 +1,22 @@
+/* initialize ----------*/
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+header, main, nav, aside, footer {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 /* https://www.dafont.com/simpsonfont.font */
 @font-face {
     font-family: 'Simpsons';
@@ -6,8 +25,10 @@
 
 body {
   font-family: Simpsons, Ariel, Helvetica, sans-serif;
-  margin: 0;
 }
+
+/* game ----------*/
+
 #game {
   background-image: url('../images/clouds.jpeg');
   background-repeat: repeat-y;
@@ -17,25 +38,27 @@ body {
   width: 900px;
 }
 
-#status-bar {
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    /* border-bottom: 4px dashed white; */
-    padding: 8px 25px 25px 25px;
-    margin-bottom: 15px;
-    color: #FFD90F;
-}
-
 #game h1 {
   color: #FFD90F;
   font-size: 4em;
   text-align: center;
-  /* https://stackoverflow.com/questions/4919076/outline-effect-to-text */
+  /* adds an outline to the text:
+   * https://stackoverflow.com/questions/4919076/outline-effect-to-text
+   */
   text-shadow:
     -1px -1px 0 #000,
 	  1px -1px 0 #000,
 	  -1px 1px 0 #000,
 	  1px 1px 0 #000;
 }
+
+#status-bar {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  padding: 8px 25px 25px 25px;
+  margin-bottom: 15px;
+  color: #FFD90F;
+}
+
 #game-board {
   padding: 0px 50px;
   margin: 0;
@@ -44,6 +67,7 @@ body {
   flex-wrap: wrap;
   box-sizing: border-box;
 }
+
 .card {
   width: 150px;
   height: 150px;
@@ -56,10 +80,8 @@ body {
   box-sizing: border-box;
 }
 
-.match span, .turned-over span, .turned-over div {
+.turned-over div {
   display: block
-}
-.type-1 {
 }
 
 .card div {
@@ -79,6 +101,8 @@ body {
   display: block;
 }
 
+/* winner ----------*/
+
 #winner {
   display: none;
   background-color: #FFFFFF;
@@ -94,6 +118,7 @@ body {
   color: #000000;
   font-size: 2.5em;
 }
+
 #winner button {
   font-family: Simpsons, Ariel, Helvetica, sans-serif;
   border: 3px double black;
