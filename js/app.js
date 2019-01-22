@@ -234,3 +234,8 @@ document.querySelector('#winner button').addEventListener('click', function(even
 
   initializeGame();
 });
+
+// Reset the game
+document.querySelector('#controls button').addEventListener('click', function(event) {
+  initializeGame();
+});

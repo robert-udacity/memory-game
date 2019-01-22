@@ -54,9 +54,25 @@ body {
 
 #status-bar {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  padding: 8px 25px 25px 25px;
+  padding: 8px 30px 25px 30px;
   margin-bottom: 15px;
   color: #FFD90F;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#status-bar #controls {
+  margin-left: auto;
+}
+
+#status-bar button {
+  font-family: Simpsons, Ariel, Helvetica, sans-serif;
+  border: 3px double black;
+  background-color: #F4D43B;
+  color: black;
+  padding: 5px;
+  font-size: 1.2em;
 }
 
 #game-board {
