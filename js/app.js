@@ -99,6 +99,8 @@ initializeGame();
 
 // flip a card over
 function flipCard(card) {
+  gameSaveData.numberOfMoves++;
+  document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
   card.classList.toggle('turned-over-intermediate');
   card.classList.toggle('turned-over');
   // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
@@ -198,9 +200,6 @@ document.querySelector('#game-board').addEventListener('click', function(event) 
     debug(`clicked on a matched or turned over card, ignore click`);
     return;
   }
-
-  gameSaveData.numberOfMoves++;
-  document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
 
   if (turnedOvers.length == 0) {
     debug('flipping a card');
