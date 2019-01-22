@@ -1,5 +1,3 @@
-let cards = document.querySelectorAll('.card');
-
 let gameData = [
  {
    image: "millhouse.png"
@@ -38,8 +36,6 @@ function initializeGame() {
   gameSaveData.numberOfMoves = 0;
   document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
   console.log("START!");
-  let cards = new Array();
-  let i = 0;
 
   let gameBoard = document.querySelector("#game-board");
 
@@ -47,6 +43,9 @@ function initializeGame() {
   while (gameBoard.hasChildNodes()) {
     gameBoard.removeChild(gameBoard.lastChild);
   }
+
+  let cards = new Array();
+  let i = 0;
 
   for (let card of gameData) {
     console.log(card.image);
@@ -76,16 +75,11 @@ function initializeGame() {
 
 initializeGame();
 
-/* https://flaviocopes.com/javascript-sleep/ */
-const sleep = (milliseconds) => {
-  return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
-
 function flipCard(card) {
   console.log(`CARD:${card.classList}`);
   card.classList.toggle('turned-over-intermediate');
-  // sleep(4000).then(realCardFlip(card));
   card.classList.toggle('turned-over');
+  // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
   window.setTimeout(realCardFlip.bind(null, card), 1000);
 }
 
@@ -196,12 +190,13 @@ gameBoard.addEventListener('click', function(event) {
     if (checkMatch()) {
       // check if a match
       console.log("sleep time");
-      sleep(1000).then(flipCards);
+      console.log("");
+      window.setTimeout(flipCards, 1000);
       checkWin();
     } else {
       console.log('Sorry, no match!');
       console.log("sleep time");
-      sleep(2000).then(flipCards);
+      window.setTimeout(flipCards, 2000);
     }
   } else if (turnedOvers.length == 2) {
     // don't flip anything in this case
