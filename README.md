@@ -11,3 +11,10 @@ Game play:
 When you win:
 
 <img width="573" alt="game-finished" src="https://user-images.githubusercontent.com/734194/51517473-7e476a00-1de0-11e9-925b-4f9280bf6f3d.png">
+
+## Todo
+
+- [ ] add button to reset the board
+- [ ] add button to quit?  Maybe different than reset, go to the finished screen
+- [ ] track match streaks
+- [ ] improve/add animations
