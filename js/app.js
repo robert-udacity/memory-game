@@ -1,6 +1,6 @@
 let cards = document.querySelectorAll('.card');
 
-let simpsonsGame = [
+let gameData = [
  {
    image: "millhouse.png"
  },
@@ -27,16 +27,16 @@ let simpsonsGame = [
  }
 ];
 
-let gameData = {
+let gameSaveData = {
   timeStart: 0,
   timeEnd: 0,
   numberOfMoves: 0,
 }
 
 function initializeGame() {
-  gameData.timeStart = Date.now();
-  gameData.numberOfMoves = 0;
-  document.querySelector('#number-of-moves').textContent = gameData.numberOfMoves;
+  gameSaveData.timeStart = Date.now();
+  gameSaveData.numberOfMoves = 0;
+  document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
   console.log("START!");
   let cards = new Array();
   let i = 0;
@@ -48,7 +48,7 @@ function initializeGame() {
     gameBoard.removeChild(gameBoard.lastChild);
   }
 
-  for (let card of simpsonsGame) {
+  for (let card of gameData) {
     console.log(card.image);
     let newCard = document.createElement('div');
     newCard.classList.add('card');
@@ -132,7 +132,7 @@ function checkWin() {
       document.querySelectorAll('.match').length) {
     console.log("you win!");
     document.querySelector('#game').classList.toggle('winner');
-    gameData.timeEnd= Date.now();
+    gameSaveData.timeEnd= Date.now();
     window.setTimeout(youWin, 2000);
   } else {
     console.log("more cards to match still!");
@@ -144,18 +144,18 @@ function youWin() {
   document.querySelector('#game').style.display = "none";
   document.querySelector('#winner').style.display = "block";
   let gameStats = document.querySelector('.game-stats');
-  let timeElapsedInMinutes = (gameData.timeEnd - gameData.timeStart) / 60000;
+  let timeElapsedInMinutes = (gameSaveData.timeEnd - gameSaveData.timeStart) / 60000;
   let gameTime = 0.0;
   let gameTimeUnits = "seconds";
 
   if (timeElapsedInMinutes >= 1.0) {
-    gameTime = ((gameData.timeEnd - gameData.timeStart) / 60000).toFixed(2);
+    gameTime = ((gameSaveData.timeEnd - gameSaveData.timeStart) / 60000).toFixed(2);
     gameTimeUnits = "minutes";
   } else {
-    gameTime = ((gameData.timeEnd - gameData.timeStart) / 1000).toFixed(2);
+    gameTime = ((gameSaveData.timeEnd - gameSaveData.timeStart) / 1000).toFixed(2);
   }
 
-  gameStats.textContent = `The game took ${gameTime} ${gameTimeUnits} and ${gameData.numberOfMoves} moves.`;
+  gameStats.textContent = `The game took ${gameTime} ${gameTimeUnits} and ${gameSaveData.numberOfMoves} moves.`;
   gameStats.classList.toggle('pulsate');
   document.querySelector('#winner button').addEventListener('click', function(event) {
     document.querySelector('#game').style.display = "block";
@@ -183,8 +183,8 @@ gameBoard.addEventListener('click', function(event) {
     return;
   }
 
-  gameData.numberOfMoves++;
-  document.querySelector('#number-of-moves').textContent = gameData.numberOfMoves;
+  gameSaveData.numberOfMoves++;
+  document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
 
   if (turnedOvers.length == 0) {
     console.log('flipping a card');
