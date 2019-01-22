@@ -1,6 +1,6 @@
 const DEBUG = true;
 
-// console.log but you you turn it off if DEBUG set to false
+// console.log but you can turn it off if DEBUG set to false
 function debug(str) {
   if (DEBUG) {
     console.log(`DEBUG: ` + str);
@@ -113,7 +113,7 @@ function removeCardHighlight(card) {
 }
 
 // flip cards when two cards are turned over.
-// For non-matches, their flipped face down.  For matches, they're not
+// For non-matches, they're  flipped face down.  For matches, they're not
 // considered turned over anymore even though they're face up.
 function flipCards() {
   let turnedOvers = document.querySelectorAll('.turned-over div');
