@@ -1,0 +1,106 @@
+/* https://www.dafont.com/simpsonfont.font */
+@font-face {
+    font-family: 'Simpsons';
+    src: url('../fonts/Simpsonfont DEMO.otf');
+}
+
+body {
+  font-family: Simpsons, Ariel, Helvetica, sans-serif;
+  margin: 0;
+}
+#game {
+  background-image: url('../images/clouds.jpeg');
+  background-repeat: repeat-y;
+  background-color: #FFD90F;
+  margin: 0 auto;
+  padding: 25px 0 128px 0;
+  width: 900px;
+}
+
+#status-bar {
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    /* border-bottom: 4px dashed white; */
+    padding: 8px 25px 25px 25px;
+    margin-bottom: 15px;
+    color: #FFD90F;
+}
+
+#game h1 {
+  color: #FFD90F;
+  font-size: 4em;
+  text-align: center;
+  /* https://stackoverflow.com/questions/4919076/outline-effect-to-text */
+  text-shadow:
+    -1px -1px 0 #000,
+	  1px -1px 0 #000,
+	  -1px 1px 0 #000,
+	  1px 1px 0 #000;
+}
+#game-board {
+  padding: 0px 50px;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+.card {
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border: 1px solid #DA7848;
+  margin: 25px;
+  font-size: 4em;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+.match span, .turned-over span, .turned-over div {
+  display: block
+}
+.type-1 {
+}
+
+.card div {
+  background-position:top;
+  background-repeat:no-repeat;
+  background-size:cover;
+  height:100%;
+  width: 100%;
+  display:none;
+  box-sizing: border-box;
+}
+
+.card.turned-over-intermediate, .winner .card {
+  border: 4px dotted #FFD90F;
+}
+.match div, .card.turned-over div {
+  display: block;
+}
+
+#winner {
+  display: none;
+  background-color: #FFFFFF;
+  margin: 0 auto;
+  padding: 50px;
+  width: 960px;
+  text-align: center;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
+}
+
+#winner h1 {
+  color: #000000;
+  font-size: 2.5em;
+}
+#winner button {
+  font-family: Simpsons, Ariel, Helvetica, sans-serif;
+  border: 3px double black;
+  background-color: #F4D43B;
+  color: black;
+  display: block;
+  margin: 25px auto;
+  padding: 10px;
+  font-size: 1.5em
+}
