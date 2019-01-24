@@ -85,6 +85,12 @@ body {
 }
 
 .card {
+  /* http://www.softicons.com/tv-movie-icons/the-simpsons-icon-pack-1-by-jonathan-rey/homer-simpson-04-happy-icon */
+  background-image: url('../images/homer-card-icon.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 45%;
+  border-radius: 12px;
   width: 150px;
   height: 150px;
   background-color: white;
@@ -101,6 +107,7 @@ body {
 }
 
 .card div {
+  border-radius: 12px;
   background-position:top;
   background-repeat:no-repeat;
   background-size:cover;
