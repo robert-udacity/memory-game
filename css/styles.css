@@ -62,6 +62,14 @@ body {
   flex-wrap: wrap;
 }
 
+#stars .fa-star {
+  color: #000000;
+}
+
+#stars .fa-star.checked {
+  color: #FFD90F;
+}
+
 #status-bar #controls {
   margin-left: auto;
 }

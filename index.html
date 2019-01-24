@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Simpsons Match!</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
     <div id="container">
@@ -14,7 +15,15 @@
         </header>
         <div id="status-bar">
           <div id="stats">
-          Number of moves <span style="font-family: sans-serif;">: </span><span id="number-of-moves">0</span>
+            <div id="moves">
+            Number of moves <span style="font-family: sans-serif;">: </span><span id="number-of-moves">0</span>
+            </div>
+            <div id="stars">
+              <!-- https://www.w3schools.com/howto/howto_css_star_rating.asp -->
+              <span class="fa fa-star checked" id="star-1"></span>
+              <span class="fa fa-star checked" id="star-2"></span>
+              <span class="fa fa-star checked" id="star-3"></span>
+            </div>
           </div>
           <div id="controls">
             <button>reset</button>

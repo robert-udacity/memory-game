@@ -42,22 +42,28 @@ let gameData = [
 //   * timeStart - when the game started
 //   * timeEnd - when the game ended
 //   * numberOfMoves - number of cards flipped over
+//   * stars - number of stars
 let gameSaveData = {
   timeStart: 0,
   timeEnd: 0,
   numberOfMoves: 0,
+  stars: 3,
 }
 
 // Initialize a game - called when you first visit the page and if you play
 // again after winning.
 function initializeGame() {
   debug("Initializing the game...");
-  debug("Reset start time and number of moves");
+  debug("Reset start time, number of moves, and stars");
 
   // reset the game data
   gameSaveData.timeStart = Date.now();
   gameSaveData.numberOfMoves = 0;
+  gameSaveData.stars = 3;
   document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
+  for (let star of document.querySelectorAll('.fa-star')) {
+    star.classList.add('checked');
+  }
 
   let gameBoard = document.querySelector("#game-board");
 
@@ -97,9 +103,33 @@ function initializeGame() {
 
 initializeGame();
 
+// Adjust the user's star ratings based on number of moves:
+//   * start with 3 stars
+//   * 0 - 16 moves == 3 stars
+//   * 17 - 25 moves == 2 stars
+//   * 26 - 34 moves == 1 stars
+//   * 35 and more moves == 0 stars
+function adjustStars() {
+  if (gameSaveData.numberOfMoves <= 16) {
+    gameSaveData.stars = 3;
+  } else if (gameSaveData.numberOfMoves >= 17 && gameSaveData.numberOfMoves <= 25) {
+    document.querySelector('#star-3').classList.remove('checked');
+    gameSaveData.stars = 2;
+  } else if (gameSaveData.numberOfMoves >= 26 && gameSaveData.numberOfMoves <= 34) {
+    document.querySelector('#star-2').classList.remove('checked');
+    gameSaveData.stars = 1;
+  } else if (gameSaveData.numberOfMoves >= 35) {
+    document.querySelector('#star-1').classList.remove('checked');
+    gameSaveData.stars = 0;
+  }
+
+  debug("number of stars: " + gameSaveData.stars);
+}
+
 // flip a card over
 function flipCard(card) {
   gameSaveData.numberOfMoves++;
+  adjustStars();
   document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
   card.classList.toggle('turned-over-intermediate');
   card.classList.toggle('turned-over');
@@ -181,7 +211,7 @@ function youWin() {
     gameTime = ((gameSaveData.timeEnd - gameSaveData.timeStart) / 1000).toFixed(2);
   }
 
-  gameStats.textContent = `The game took ${gameTime} ${gameTimeUnits} and ${gameSaveData.numberOfMoves} moves.`;
+  gameStats.textContent = `The game took ${gameTime} ${gameTimeUnits} and ${gameSaveData.numberOfMoves} moves and you scored ${gameSaveData.stars} stars!`;
   gameStats.classList.toggle('pulsate');
 }
 
