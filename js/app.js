@@ -1,5 +1,6 @@
 const DEBUG = true;
 const CARD_TOP = 'homer-card-icon.png';
+const CARD_IMAGES_LOCATION= './images';
 
 // console.log but you can turn it off if DEBUG set to false
 function debug(str) {
@@ -10,7 +11,7 @@ function debug(str) {
 
 // Game card data:
 //   * image: the image to use for the card.  Depends on images being stored in
-//     images/ subdirectory.
+//     CARD_IMAGES_LOCATION.
 //   * id: unique identifier for the card
 //   * class: the type of card, multiple cards can have the same class
 //
@@ -223,7 +224,7 @@ function flipCard(card) {
   for (let c of gameCards) {
     if (card.id === c.id) {
       c.turnedOver = true;
-      card.style.backgroundImage = `url(./images/${c.image})`;
+      card.style.backgroundImage = `url(${CARD_IMAGES_LOCATION}/${c.image})`;
       debug("turned over " + c.id);
     }
   }
