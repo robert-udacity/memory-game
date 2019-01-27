@@ -115,22 +115,8 @@ body {
   display: block
 }
 
-.card div {
-  border-radius: 12px;
-  background-position:top;
-  background-repeat:no-repeat;
-  background-size:cover;
-  height:100%;
-  width: 100%;
-  display:none;
-  box-sizing: border-box;
-}
-
 .card.turned-over-intermediate, .winner .card {
   border: 4px dotted #FFD90F;
-}
-.match div, .card.turned-over div {
-  display: block;
 }
 
 /* winner ----------*/
