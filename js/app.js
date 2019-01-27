@@ -216,9 +216,9 @@ function flipCard(card) {
   adjustStars();
   // Give card intermediate state for animation border, turn it face up, and
   // remove face down class.
-  card.classList.toggle('turned-up-intermediate');
-  card.classList.toggle('turned-up');
-  card.classList.toggle('turned-down');
+  card.classList.add('turned-up-intermediate');
+  card.classList.add('turned-up');
+  card.classList.remove('turned-down');
 
   for (let c of gameCards) {
     if (card.id === c.id) {
@@ -253,7 +253,7 @@ function flipDown(card) {
 
 // remove a card's highlight (flipped over cards are highlighted)
 function removeCardHighlight(card) {
-  card.classList.toggle('turned-up-intermediate');
+  card.classList.remove('turned-up-intermediate');
 }
 
 // flip cards when two cards are turned over.
@@ -294,7 +294,7 @@ function checkWin() {
   if (document.querySelectorAll('.card').length ===
       document.querySelectorAll('.match').length) {
     debug("all cards matched");
-    document.querySelector('#game').classList.toggle('winner');
+    document.querySelector('#game').classList.add('winner');
     gameSaveData.timeEnd= Date.now();
     window.setTimeout(youWin, 2000);
   } else {
@@ -321,7 +321,6 @@ function youWin() {
   }
 
   gameStats.textContent = `The game took ${gameTime} ${gameTimeUnits} and ${gameSaveData.numberOfMoves} moves and you scored ${gameSaveData.stars} stars!`;
-  gameStats.classList.toggle('pulsate');
 }
 
 // Main game play, listen for clicks on the game baord which contains all the cards.
