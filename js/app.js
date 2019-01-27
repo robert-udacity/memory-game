@@ -170,11 +170,8 @@ function initializeGame() {
     debug("adding card: " + gameCard.image);
     let newCard = document.createElement('div');
     newCard.classList.add('card');
-    let newCardImg = document.createElement('div');
-    newCardImg.style.cssText = `background-image: url(./images/${gameCard.image});`;
-    newCardImg.classList.add(`${gameCard.class}`)
-    newCardImg.setAttribute('id', `${gameCard.id}`);
-    newCard.appendChild(newCardImg);
+    newCard.classList.add(`${gameCard.class}`)
+    newCard.setAttribute('id', `${gameCard.id}`);
     gameBoard.appendChild(newCard);
   }
 }
@@ -214,9 +211,12 @@ function flipCard(card) {
   card.classList.toggle('turned-over');
 
   for (let c of gameCards) {
-    let checkCard = card.querySelector('div');
-    if (checkCard.id === c.id) {
+    if (card.id === c.id) {
       c.turnedOver = true;
+      card.style.cssText = `background-image: url(./images/${c.image});
+                            background-position:top;
+                            background-repeat:no-repeat;
+                            background-size:cover;`;
       debug("turned over " + c.id);
     }
   }
@@ -229,9 +229,12 @@ function flipDown(card) {
   debug("flipDown()---")
 
   for (let c of gameCards) {
-    let checkCard = card.querySelector('div');
-    if (checkCard.id === c.id) {
+    if (card.id === c.id) {
       c.turnedOver = false;
+
+      if (!card.classList.contains('match')) {
+        card.style.cssText = `background-image: url(./images/homer-card-icon.png);`;
+      }
       debug("flip down" + c.id);
     }
   }
@@ -246,11 +249,11 @@ function removeCardHighlight(card) {
 // For non-matches, they're  flipped face down.  For matches, they're not
 // considered turned over anymore even though they're face up.
 function flipCards() {
-  let turnedOvers = document.querySelectorAll('.turned-over div');
-  turnedOvers[0].parentElement.classList.toggle('turned-over');
-  turnedOvers[1].parentElement.classList.toggle('turned-over');
-  flipDown(turnedOvers[0].parentElement);
-  flipDown(turnedOvers[1].parentElement);
+  let turnedOvers = document.querySelectorAll('.turned-over');
+  turnedOvers[0].classList.toggle('turned-over');
+  turnedOvers[1].classList.toggle('turned-over');
+  flipDown(turnedOvers[0]);
+  flipDown(turnedOvers[1]);
 }
 
 // Check if the 2 current turned over cards are a match.
@@ -263,8 +266,8 @@ function checkMatch() {
 
   // If we have a match, tag the cards as matched which will keep them face-up
   if (isMatch) {
-    document.getElementById(card1.id).parentElement.classList.add('match');
-    document.getElementById(card2.id).parentElement.classList.add('match');
+    document.getElementById(card1.id).classList.add('match');
+    document.getElementById(card2.id).classList.add('match');
   }
 
   debug("card1.class: " + card1.class);
