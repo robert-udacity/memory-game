@@ -159,7 +159,11 @@ function initializeGame() {
   // Array-ify the game data
   for (let card of gameData) {
     debug("adding card: " + card.image);
-    gameCards.push({id: card.id, class: card.class, image: card.image, turnedOver: false, matched: false});
+    gameCards.push({id: card.id,
+                    class: card.class,
+                    image: card.image,
+                    turnedOver: false,
+                    matched: false});
   }
 
   // Board changes every game
@@ -210,6 +214,8 @@ function flipCard(card) {
   gameSaveData.numberOfMoves++;
   document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
   adjustStars();
+  // Give card intermediate state for animation border, turn it face up, and
+  // remove face down class.
   card.classList.toggle('turned-up-intermediate');
   card.classList.toggle('turned-up');
   card.classList.toggle('turned-down');
@@ -228,6 +234,8 @@ function flipCard(card) {
 
 function flipDown(card) {
   debug("flipDown()---")
+
+  card.classList.remove('turned-up');
 
   for (let c of gameCards) {
     if (card.id === c.id) {
@@ -254,8 +262,7 @@ function removeCardHighlight(card) {
 function flipCards() {
   debug("flipCards()---");
   let turnedOvers = document.querySelectorAll('.turned-up');
-  turnedOvers[0].classList.toggle('turned-up');
-  turnedOvers[1].classList.toggle('turned-up');
+
   flipDown(turnedOvers[0]);
   flipDown(turnedOvers[1]);
 }
