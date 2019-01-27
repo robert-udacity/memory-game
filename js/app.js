@@ -1,4 +1,5 @@
 const DEBUG = true;
+const CARD_TOP = 'homer-card-icon.png';
 
 // console.log but you can turn it off if DEBUG set to false
 function debug(str) {
@@ -39,12 +40,12 @@ let gameData = [
  {
    image: "homer.jpg",
    id: "homer-1",
-   class: "homer",
+   class: "type-homer",
  },
  {
    image: "homer.jpg",
    id: "homer-2",
-   class: "homer",
+   class: "type-homer",
  },
  {
    image: "smithers.jpg",
@@ -170,6 +171,7 @@ function initializeGame() {
     debug("adding card: " + gameCard.image);
     let newCard = document.createElement('li');
     newCard.classList.add('card');
+    newCard.classList.add('turned-down');
     newCard.classList.add(`${gameCard.class}`)
     newCard.setAttribute('id', `${gameCard.id}`);
     gameBoard.appendChild(newCard);
@@ -207,16 +209,14 @@ function flipCard(card) {
   gameSaveData.numberOfMoves++;
   document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
   adjustStars();
-  card.classList.toggle('turned-over-intermediate');
-  card.classList.toggle('turned-over');
+  card.classList.toggle('turned-up-intermediate');
+  card.classList.toggle('turned-up');
+  card.classList.toggle('turned-down');
 
   for (let c of gameCards) {
     if (card.id === c.id) {
       c.turnedOver = true;
-      card.style.cssText = `background-image: url(./images/${c.image});
-                            background-position:top;
-                            background-repeat:no-repeat;
-                            background-size:cover;`;
+      card.style.backgroundImage = `url(./images/${c.image})`;
       debug("turned over " + c.id);
     }
   }
@@ -233,7 +233,9 @@ function flipDown(card) {
       c.turnedOver = false;
 
       if (!card.classList.contains('match')) {
-        card.style.cssText = `background-image: url(./images/homer-card-icon.png);`;
+        card.classList.add('turned-down');
+        // clear the flipped over card image
+        card.style.cssText = '';
       }
       debug("flip down" + c.id);
     }
@@ -242,16 +244,16 @@ function flipDown(card) {
 
 // remove a card's highlight (flipped over cards are highlighted)
 function removeCardHighlight(card) {
-  card.classList.toggle('turned-over-intermediate');
+  card.classList.toggle('turned-up-intermediate');
 }
 
 // flip cards when two cards are turned over.
 // For non-matches, they're  flipped face down.  For matches, they're not
 // considered turned over anymore even though they're face up.
 function flipCards() {
-  let turnedOvers = document.querySelectorAll('.turned-over');
-  turnedOvers[0].classList.toggle('turned-over');
-  turnedOvers[1].classList.toggle('turned-over');
+  let turnedOvers = document.querySelectorAll('.turned-up');
+  turnedOvers[0].classList.toggle('turned-up');
+  turnedOvers[1].classList.toggle('turned-up');
   flipDown(turnedOvers[0]);
   flipDown(turnedOvers[1]);
 }
@@ -259,7 +261,7 @@ function flipCards() {
 // Check if the 2 current turned over cards are a match.
 function checkMatch() {
   debug("checkMatch()---");
-  // let turnedOvers = document.querySelectorAll('.turned-over div');
+  // let turnedOvers = document.querySelectorAll('.turned-up div');
   let [card1, card2] = getTurnedOvers(gameCards);
 
   const isMatch = card1.class === card2.class;
@@ -325,7 +327,7 @@ document.querySelector('#game-board').addEventListener('click', function(event) 
   }
 
   if (event.target.classList.contains('match') ||
-      event.target.classList.contains('turned-over')) {
+      event.target.classList.contains('turned-up')) {
     debug(`clicked on a matched or turned over card, ignore click`);
     return;
   }

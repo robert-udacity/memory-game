@@ -94,11 +94,6 @@ body {
 }
 
 .card {
-  /* http://www.softicons.com/tv-movie-icons/the-simpsons-icon-pack-1-by-jonathan-rey/homer-simpson-04-happy-icon */
-  background-image: url('../images/homer-card-icon.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 45%;
   border-radius: 12px;
   width: 150px;
   height: 150px;
@@ -111,11 +106,21 @@ body {
   box-sizing: border-box;
 }
 
-.turned-over div {
-  display: block
+.turned-down {
+  /* http://www.softicons.com/tv-movie-icons/the-simpsons-icon-pack-1-by-jonathan-rey/homer-simpson-04-happy-icon */
+  background-image: url('../images/homer-card-icon.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 45%;
 }
 
-.card.turned-over-intermediate, .winner .card {
+.turned-up, .match {
+  background-position:top;
+  background-repeat:no-repeat;
+  background-size:cover;
+}
+
+.card.turned-up-intermediate, .winner .card {
   border: 4px dotted #FFD90F;
 }
 
