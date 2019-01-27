@@ -115,9 +115,9 @@ let gameSaveData = {
 
 // Return the turned over card objects
 function getTurnedOvers(cards) {
+  debug("getTurnedOvers()---")
   let turnedOvers = new Array();
 
-  debug("getTurnedOvers()---")
   for (let card of cards) {
     if (card.turnedOver) {
       debug("adding turned over card: " + card.id);
@@ -187,6 +187,7 @@ initializeGame();
 //   * 26 - 34 moves == 1 stars
 //   * 35 and more moves == 0 stars
 function adjustStars() {
+  debug("adjustStars()---")
   if (gameSaveData.numberOfMoves <= 16) {
     gameSaveData.stars = 3;
   } else if (gameSaveData.numberOfMoves >= 17 && gameSaveData.numberOfMoves <= 25) {
@@ -251,6 +252,7 @@ function removeCardHighlight(card) {
 // For non-matches, they're  flipped face down.  For matches, they're not
 // considered turned over anymore even though they're face up.
 function flipCards() {
+  debug("flipCards()---");
   let turnedOvers = document.querySelectorAll('.turned-up');
   turnedOvers[0].classList.toggle('turned-up');
   turnedOvers[1].classList.toggle('turned-up');
@@ -281,6 +283,7 @@ function checkMatch() {
 
 // Check if the user won the game
 function checkWin() {
+  debug("checkWin()---")
   if (document.querySelectorAll('.card').length ===
       document.querySelectorAll('.match').length) {
     debug("all cards matched");
@@ -294,7 +297,7 @@ function checkWin() {
 
 // Show the win screen
 function youWin() {
-  debug("YOU WIN!");
+  debug("youWin()---")
   document.querySelector('#game').style.display = "none";
   document.querySelector('#winner').style.display = "block";
 
@@ -316,10 +319,9 @@ function youWin() {
 
 // Main game play, listen for clicks on the game baord which contains all the cards.
 document.querySelector('#game-board').addEventListener('click', function(event) {
+  debug("click event handler on #game-board---")
   let turnedOvers = getTurnedOvers(gameCards);
   debug(`Click event fired, there are currently ${turnedOvers.length} cards flipped over`);
-
-  debug(getTurnedOvers(gameCards));
 
   if (!event.target.classList.contains('card')) {
     debug(`Not a card, ignore click`);
@@ -359,6 +361,7 @@ document.querySelector('#game-board').addEventListener('click', function(event) 
 
 // Let the user play again
 document.querySelector('#winner button').addEventListener('click', function(event) {
+  debug("click event handler on #winner button---")
   document.querySelector('#game').style.display = "block";
   document.querySelector('#winner').style.display = "none";
   document.querySelector('#game').classList.remove('winner');
@@ -368,5 +371,6 @@ document.querySelector('#winner button').addEventListener('click', function(even
 
 // Reset the game
 document.querySelector('#controls button').addEventListener('click', function(event) {
+  debug("click event handler on #controls button---")
   initializeGame();
 });
