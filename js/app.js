@@ -12,7 +12,7 @@ function debug(str) {
 //     images/ subdirectory.
 //   * id: unique identifier for the card
 //   * class: the type of card, multiple cards can have the same class
-// 
+//
 // Allows us to dynamically build the game board by adding/removing images
 // rather than hardcoding in the HTML.
 let gameData = [
@@ -98,6 +98,8 @@ let gameData = [
  }
 ];
 
+let gameCards = new Array();
+
 // Game data:
 //   * timeStart - when the game started
 //   * timeEnd - when the game ended
@@ -110,6 +112,25 @@ let gameSaveData = {
   stars: 3,
 }
 
+// Return the turned over card objects
+function getTurnedOvers(cards) {
+  let turnedOvers = new Array();
+
+  debug("getTurnedOvers()---")
+  for (let card of cards) {
+    if (card.turnedOver) {
+      debug("adding turned over card: " + card.id);
+      turnedOvers.push(card);
+    }
+  }
+
+  if (turnedOvers.length == 0) {
+    debug("No turned over cards");
+  }
+
+  return turnedOvers;
+}
+
 // Initialize a game - called when you first visit the page and if you play
 // again after winning.
 function initializeGame() {
@@ -117,6 +138,7 @@ function initializeGame() {
   debug("Reset start time, number of moves, and stars");
 
   // reset the game data
+  gameCards = new Array();
   gameSaveData.timeStart = Date.now();
   gameSaveData.numberOfMoves = 0;
   gameSaveData.stars = 3;
@@ -133,31 +155,27 @@ function initializeGame() {
     gameBoard.removeChild(gameBoard.lastChild);
   }
 
-  // Store the built up cards HTML so we can randomize it
-  let cards = new Array();
-  let i = 0;
-
-  // Build the card HTML - each card is created twice and gets a type-n class
-  // which is what we check for matches.
+  // Array-ify the game data
   for (let card of gameData) {
     debug("adding card: " + card.image);
-    let newCard = document.createElement('div');
-    newCard.classList.add('card');
-    let newCardImg = document.createElement('div');
-    newCardImg.style.cssText = `background-image: url(./images/${card.image});`;
-    newCardImg.classList.add(`type-${i}`)
-    newCard.appendChild(newCardImg);
-    cards.push(newCard);
-    cards.push(newCard.cloneNode(true));
-    i++;
+    gameCards.push({id: card.id, class: card.class, image: card.image, turnedOver: false, matched: false});
   }
 
   // Board changes every game
   // https://www.w3schools.com/js/js_array_sort.asp
-  cards.sort(function(a, b){return 0.5 - Math.random()});
+  gameCards.sort(function(a, b){return 0.5 - Math.random()});
 
-  for (let card of cards) {
-    gameBoard.appendChild(card);
+  // Build up the card HTML and it to the game board
+  for (let gameCard of gameCards) {
+    debug("adding card: " + gameCard.image);
+    let newCard = document.createElement('div');
+    newCard.classList.add('card');
+    let newCardImg = document.createElement('div');
+    newCardImg.style.cssText = `background-image: url(./images/${gameCard.image});`;
+    newCardImg.classList.add(`${gameCard.class}`)
+    newCardImg.setAttribute('id', `${gameCard.id}`);
+    newCard.appendChild(newCardImg);
+    gameBoard.appendChild(newCard);
   }
 }
 
@@ -188,13 +206,35 @@ function adjustStars() {
 
 // flip a card over
 function flipCard(card) {
+  debug("flipCard()---")
   gameSaveData.numberOfMoves++;
-  adjustStars();
   document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
+  adjustStars();
   card.classList.toggle('turned-over-intermediate');
   card.classList.toggle('turned-over');
+
+  for (let c of gameCards) {
+    let checkCard = card.querySelector('div');
+    if (checkCard.id === c.id) {
+      c.turnedOver = true;
+      debug("turned over " + c.id);
+    }
+  }
+
   // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
   window.setTimeout(removeCardHighlight.bind(null, card), 1000);
+}
+
+function flipDown(card) {
+  debug("flipDown()---")
+
+  for (let c of gameCards) {
+    let checkCard = card.querySelector('div');
+    if (checkCard.id === c.id) {
+      c.turnedOver = false;
+      debug("flip down" + c.id);
+    }
+  }
 }
 
 // remove a card's highlight (flipped over cards are highlighted)
@@ -209,35 +249,29 @@ function flipCards() {
   let turnedOvers = document.querySelectorAll('.turned-over div');
   turnedOvers[0].parentElement.classList.toggle('turned-over');
   turnedOvers[1].parentElement.classList.toggle('turned-over');
+  flipDown(turnedOvers[0].parentElement);
+  flipDown(turnedOvers[1].parentElement);
 }
 
 // Check if the 2 current turned over cards are a match.
 function checkMatch() {
-  let turnedOvers = document.querySelectorAll('.turned-over div');
+  debug("checkMatch()---");
+  // let turnedOvers = document.querySelectorAll('.turned-over div');
+  let [card1, card2] = getTurnedOvers(gameCards);
 
-  let cardType1 = '';
-  let cardType2 = '';
-
-  for (let c of turnedOvers[0].classList) {
-    debug("first card class: " + c);
-    if (c.startsWith('type')) {
-      cardType1 = c;
-    }
-  }
-  for (let c of turnedOvers[1].classList) {
-    debug("second card class: " + c);
-    if (c.startsWith('type')) {
-      cardType2 = c;
-    }
-  }
+  const isMatch = card1.class === card2.class;
 
   // If we have a match, tag the cards as matched which will keep them face-up
-  if (cardType1 === cardType2) {
-    turnedOvers[0].parentElement.classList.add('match');
-    turnedOvers[1].parentElement.classList.add('match');
+  if (isMatch) {
+    document.getElementById(card1.id).parentElement.classList.add('match');
+    document.getElementById(card2.id).parentElement.classList.add('match');
   }
 
-  return cardType1 === cardType2;
+  debug("card1.class: " + card1.class);
+  debug("card2.class: " + card2.class);
+  debug("match? : " + (isMatch));
+
+  return isMatch;
 }
 
 // Check if the user won the game
@@ -277,8 +311,10 @@ function youWin() {
 
 // Main game play, listen for clicks on the game baord which contains all the cards.
 document.querySelector('#game-board').addEventListener('click', function(event) {
-  let turnedOvers = document.querySelectorAll('.turned-over');
+  let turnedOvers = getTurnedOvers(gameCards);
   debug(`Click event fired, there are currently ${turnedOvers.length} cards flipped over`);
+
+  debug(getTurnedOvers(gameCards));
 
   if (!event.target.classList.contains('card')) {
     debug(`Not a card, ignore click`);
