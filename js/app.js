@@ -168,7 +168,7 @@ function initializeGame() {
   // Build up the card HTML and it to the game board
   for (let gameCard of gameCards) {
     debug("adding card: " + gameCard.image);
-    let newCard = document.createElement('div');
+    let newCard = document.createElement('li');
     newCard.classList.add('card');
     newCard.classList.add(`${gameCard.class}`)
     newCard.setAttribute('id', `${gameCard.id}`);
