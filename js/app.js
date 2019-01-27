@@ -7,34 +7,94 @@ function debug(str) {
   }
 }
 
-// Game card data, currently only image names but could include other metadata.
-// Depends on images being stored in images/ subdirectory.
+// Game card data:
+//   * image: the image to use for the card.  Depends on images being stored in
+//     images/ subdirectory.
+//   * id: unique identifier for the card
+//   * class: the type of card, multiple cards can have the same class
+// 
 // Allows us to dynamically build the game board by adding/removing images
 // rather than hardcoding in the HTML.
 let gameData = [
  {
-   image: "millhouse.png"
+   image: "millhouse.png",
+   id: "millhouse-1",
+   class: "type-millhouse",
  },
  {
-   image: "lisa-simpson.jpg"
+   image: "millhouse.png",
+   id: "millhouse-2",
+   class: "type-millhouse",
  },
  {
-   image: "homer.jpg"
+   image: "lisa-simpson.jpg",
+   id: "lisa-1",
+   class: "type-lisa",
  },
  {
-   image: "smithers.jpg"
+   image: "lisa-simpson.jpg",
+   id: "lisa-2",
+   class: "type-lisa",
  },
  {
-   image: "marge.png"
+   image: "homer.jpg",
+   id: "homer-1",
+   class: "homer",
  },
  {
-   image: "maggie.jpeg"
+   image: "homer.jpg",
+   id: "homer-2",
+   class: "homer",
  },
  {
-   image: "nelson.jpeg"
+   image: "smithers.jpg",
+   id: "smithers-1",
+   class: "type-smithers",
  },
  {
-   image: "bart.jpeg"
+   image: "smithers.jpg",
+   id: "smithers-2",
+   class: "type-smithers",
+ },
+ {
+   image: "marge.png",
+   id: "marge-1",
+   class: "type-marge",
+ },
+ {
+   image: "marge.png",
+   id: "marge-2",
+   class: "type-marge",
+ },
+ {
+   image: "maggie.jpeg",
+   id: "maggie-1",
+   class: "type-maggie",
+ },
+ {
+   image: "maggie.jpeg",
+   id: "maggie-2",
+   class: "type-maggie",
+ },
+ {
+   image: "nelson.jpeg",
+   id: "nelson-1",
+   class: "type-nelson",
+ },
+ {
+   image: "nelson.jpeg",
+   id: "nelson-2",
+   class: "type-nelson",
+ },
+ {
+   image: "bart.jpeg",
+   id: "bart-1",
+   class: "type-bart",
+ },
+ {
+   image: "bart.jpeg",
+   id: "bart-2",
+   class: "type-bart",
  }
 ];
 
