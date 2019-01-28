@@ -17,7 +17,7 @@ function debug(str) {
 //
 // Allows us to dynamically build the game board by adding/removing images
 // rather than hardcoding in the HTML.
-let gameData = [
+const gameData = [
  {
    image: "millhouse.png",
    id: "millhouse-1",
@@ -100,14 +100,14 @@ let gameData = [
  }
 ];
 
-let gameCards = new Array();
+let gameCards = [];
 
 // Game data:
 //   * timeStart - when the game started
 //   * timeEnd - when the game ended
 //   * numberOfMoves - number of cards flipped over
 //   * stars - number of stars
-let gameSaveData = {
+const gameSaveData = {
   timeStart: 0,
   timeEnd: 0,
   numberOfMoves: 0,
@@ -117,9 +117,9 @@ let gameSaveData = {
 // Return the turned over card objects
 function getTurnedOvers(cards) {
   debug("getTurnedOvers()---")
-  let turnedOvers = new Array();
+  const turnedOvers = [];
 
-  for (let card of cards) {
+  for (const card of cards) {
     if (card.turnedOver) {
       debug("adding turned over card: " + card.id);
       turnedOvers.push(card);
@@ -140,16 +140,16 @@ function initializeGame() {
   debug("Reset start time, number of moves, and stars");
 
   // reset the game data
-  gameCards = new Array();
+  gameCards = [];
   gameSaveData.timeStart = Date.now();
   gameSaveData.numberOfMoves = 0;
   gameSaveData.stars = 3;
   document.querySelector('#number-of-moves').textContent = gameSaveData.numberOfMoves;
-  for (let star of document.querySelectorAll('.fa-star')) {
+  for (const star of document.querySelectorAll('.fa-star')) {
     star.classList.add('checked');
   }
 
-  let gameBoard = document.querySelector("#game-board");
+  const gameBoard = document.querySelector("#game-board");
 
   // Remove all the cards, we'll create a new randomized board later.
   // https://stackoverflow.com/questions/683366/remove-all-the-children-dom-elements-in-div/683429
@@ -158,7 +158,7 @@ function initializeGame() {
   }
 
   // Array-ify the game data
-  for (let card of gameData) {
+  for (const card of gameData) {
     debug("adding card: " + card.image);
     gameCards.push({id: card.id,
                     class: card.class,
@@ -172,9 +172,9 @@ function initializeGame() {
   gameCards.sort(function(a, b){return 0.5 - Math.random()});
 
   // Build up the card HTML and it to the game board
-  for (let gameCard of gameCards) {
+  for (const gameCard of gameCards) {
     debug("adding card: " + gameCard.image);
-    let newCard = document.createElement('li');
+    const newCard = document.createElement('li');
     newCard.classList.add('card');
     newCard.classList.add('turned-down');
     newCard.classList.add(`${gameCard.class}`)
@@ -221,7 +221,7 @@ function flipCard(card) {
   card.classList.add('turned-up');
   card.classList.remove('turned-down');
 
-  for (let c of gameCards) {
+  for (const c of gameCards) {
     if (card.id === c.id) {
       c.turnedOver = true;
       card.style.backgroundImage = `url(${CARD_IMAGES_LOCATION}/${c.image})`;
@@ -238,7 +238,7 @@ function flipDown(card) {
 
   card.classList.remove('turned-up');
 
-  for (let c of gameCards) {
+  for (const c of gameCards) {
     if (card.id === c.id) {
       c.turnedOver = false;
 
@@ -262,7 +262,7 @@ function removeCardHighlight(card) {
 // considered turned over anymore even though they're face up.
 function flipCards() {
   debug("flipCards()---");
-  let turnedOvers = document.querySelectorAll('.turned-up');
+  const turnedOvers = document.querySelectorAll('.turned-up');
 
   flipDown(turnedOvers[0]);
   flipDown(turnedOvers[1]);
@@ -271,8 +271,7 @@ function flipCards() {
 // Check if the 2 current turned over cards are a match.
 function checkMatch() {
   debug("checkMatch()---");
-  // let turnedOvers = document.querySelectorAll('.turned-up div');
-  let [card1, card2] = getTurnedOvers(gameCards);
+  const [card1, card2] = getTurnedOvers(gameCards);
 
   const isMatch = card1.class === card2.class;
 
@@ -309,10 +308,10 @@ function youWin() {
   document.querySelector('#game').style.display = "none";
   document.querySelector('#winner').style.display = "block";
 
-  let gameStats = document.querySelector('.game-stats');
-  let timeElapsedInMinutes = (gameSaveData.timeEnd - gameSaveData.timeStart) / 60000;
-  let gameTime = 0.0;
+  const gameStats = document.querySelector('.game-stats');
+  const timeElapsedInMinutes = (gameSaveData.timeEnd - gameSaveData.timeStart) / 60000;
   let gameTimeUnits = "seconds";
+  let gameTime = 0.0;
 
   if (timeElapsedInMinutes >= 1.0) {
     gameTime = ((gameSaveData.timeEnd - gameSaveData.timeStart) / 60000).toFixed(2);
@@ -327,7 +326,7 @@ function youWin() {
 // Main game play, listen for clicks on the game baord which contains all the cards.
 document.querySelector('#game-board').addEventListener('click', function(event) {
   debug("click event handler on #game-board---")
-  let turnedOvers = getTurnedOvers(gameCards);
+  const turnedOvers = getTurnedOvers(gameCards);
   debug(`Click event fired, there are currently ${turnedOvers.length} cards flipped over`);
 
   if (!event.target.classList.contains('card')) {
@@ -366,7 +365,7 @@ document.querySelector('#game-board').addEventListener('click', function(event) 
   }
 });
 
-// Let the user play again
+// const the user play again
 document.querySelector('#winner button').addEventListener('click', function(event) {
   debug("click event handler on #winner button---")
   document.querySelector('#game').style.display = "block";
